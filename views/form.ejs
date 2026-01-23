@@ -9,7 +9,7 @@
   <main class="bg-white rounded-lg shadow-md w-full max-w-md p-6">
     <h1 class="text-2xl font-semibold mb-4">Simple Form</h1>
 
-    <form action="/submit" method="post" class="space-y-4">
+    <form action="/submissions/submit" method="post" class="space-y-4">
       <div>
         <label class="block text-sm font-medium text-gray-700">Name</label>
         <input name="name" required class="mt-1 block w-full border rounded px-3 py-2" />
@@ -35,7 +35,7 @@
     <div class="grid grid-cols-1 gap-4">
       <div>
         <h2 class="text-lg font-medium mb-2">Register (demo)</h2>
-        <form action="/register" method="post" class="space-y-3">
+        <form action="/auth/register" method="post" class="space-y-3">
           <div>
             <label class="block text-sm text-gray-700">Name</label>
             <input name="name" class="mt-1 block w-full border rounded px-3 py-2" />
@@ -52,7 +52,7 @@
 
       <div>
         <h2 class="text-lg font-medium mb-2">Login (demo)</h2>
-        <form action="/login" method="post" class="space-y-3">
+        <form action="/auth/login" method="post" class="space-y-3">
           <div>
             <label class="block text-sm text-gray-700">Email</label>
             <input name="email" type="email" required class="mt-1 block w-full border rounded px-3 py-2" />

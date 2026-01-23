@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Submissions</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen flex items-start justify-center py-10">
+  <main class="bg-white rounded-lg shadow-md w-full max-w-2xl p-6">
+    <h1 class="text-2xl font-semibold mb-4">Submissions</h1>
+    <ul class="divide-y divide-gray-200">
+      <% submissions.forEach(function(s){ %>
+        <li class="py-3 flex justify-between items-center">
+          <div>
+            <div class="font-medium"><%= s.name || '—' %></div>
+            <div class="text-sm text-gray-500"><%= s.email %></div>
+          </div>
+          <div>
+            <a href="/submissions/profile/<%= s._id %>?email=<%= encodeURIComponent(s.email) %>" class="text-indigo-600 hover:underline text-sm">View</a>
+          </div>
+        </li>
+      <% }) %>
+    </ul>
+    <div class="mt-4"><a href="/" class="text-sm text-gray-600 hover:underline">Back</a></div>
+  </main>
+</body>
+</html>

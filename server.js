@@ -3,6 +3,8 @@ import { connectDB } from './helpers/db.js';
 import Submission from './models/Submission.js';
 import User from './models/User.js';
 import { requireRegistered } from './helpers/auth.js';
+import authRouter from './routes/auth.js';
+import submissionsRouter from './routes/submissions.js';
 const app = express();
 
 // parse HTML form data
@@ -21,61 +23,18 @@ connectDB().catch(err => console.error(err));
 app.get('/', (req, res) => {
   res.render('form');
 });
-app.post('/submit', async (req, res) => {
-  const { name, email, message } = req.body;
+// mount routers
+app.use('/auth', authRouter);
+app.use('/submissions', submissionsRouter);
+
+// optional: a demo list (for classroom use)
+app.get('/list', async (req, res) => {
   try {
-    const doc = await Submission.create({ name, email, message });
-    res.render('result', { id: doc._id, name: doc.name, email: doc.email, message: doc.message });
+    const docs = await Submission.find().sort({ createdAt: -1 }).lean();
+    res.render('list', { submissions: docs });
   } catch (err) {
-    console.error('Save error:', err);
-    res.status(500).send('Error saving submission');
-  }
-});
-
-// register (minimal, no hashing)
-app.post('/register', async (req, res) => {
-  const { name, email } = req.body;
-  if (!email) return res.status(400).render('auth', { message: 'Email is required' });
-  try {
-    const exists = await User.findOne({ email });
-    if (exists) return res.render('auth', { message: 'User already registered' });
-    await User.create({ name, email });
-    res.render('auth', { message: 'Registered successfully' });
-  } catch (err) {
-    console.error('Register error:', err);
-    res.status(500).render('auth', { message: 'Error registering user' });
-  }
-});
-
-// login (minimal)
-app.post('/login', async (req, res) => {
-  const { email } = req.body;
-  if (!email) return res.status(400).render('auth', { message: 'Email is required' });
-  try {
-    const user = await User.findOne({ email });
-    if (!user) return res.render('auth', { message: 'User has not registered' });
-
-    // find latest submission by this email and redirect to profile if exists
-    const sub = await Submission.findOne({ email }).sort({ createdAt: -1 });
-    if (sub) return res.redirect(`/profile/${sub._id}?email=${encodeURIComponent(email)}`);
-
-    // otherwise show a message
-    res.render('auth', { message: 'Logged in — no submissions yet. Submit the form first.' });
-  } catch (err) {
-    console.error('Login error:', err);
-    res.status(500).render('auth', { message: 'Error during login' });
-  }
-});
-
-// profile page (minimal, protected by middleware)
-app.get('/profile/:id', requireRegistered, async (req, res) => {
-  try {
-    const doc = await Submission.findById(req.params.id).lean();
-    if (!doc) return res.status(404).send('Not found');
-    res.render('profile', { submission: doc });
-  } catch (err) {
-    console.error('Fetch error:', err);
-    res.status(500).send('Error fetching submission');
+    console.error('List fetch error:', err);
+    res.status(500).send('Error fetching submissions');
   }
 });
 
