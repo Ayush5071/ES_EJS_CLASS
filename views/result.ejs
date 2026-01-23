@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Result</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen flex items-start justify-center py-10">
+  <main class="bg-white rounded-lg shadow-md w-full max-w-md p-6">
+    <h1 class="text-2xl font-semibold mb-4">Form Received</h1>
+
+    <dl class="space-y-2">
+      <div>
+        <dt class="text-sm font-medium text-gray-500">Name</dt>
+        <dd class="text-gray-900"><%= name %></dd>
+      </div>
+      <div>
+        <dt class="text-sm font-medium text-gray-500">Email</dt>
+        <dd class="text-gray-900"><%= email %></dd>
+      </div>
+      <div>
+        <dt class="text-sm font-medium text-gray-500">Message</dt>
+        <dd class="text-gray-900 whitespace-pre-wrap"><%= message %></dd>
+      </div>
+    </dl>
+
+    <div class="mt-4">
+      <a href="/profile/<%= id %>" class="text-indigo-600 hover:underline text-sm">View profile</a>
+    </div>
+
+    <div class="mt-4">
+      <a href="/" class="text-sm text-gray-600 hover:underline">Back</a>
+    </div>
+  </main>
+</body>
+</html>
