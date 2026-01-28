@@ -5,7 +5,13 @@ import User from './models/User.js';
 import { requireRegistered } from './helpers/auth.js';
 import authRouter from './routes/auth.js';
 import submissionsRouter from './routes/submissions.js';
+import dotenv from 'dotenv';
+
 const app = express();
+dotenv.config();
+
+
+console.log('Using MongoDB URI:', process.env.MONGODB_URI);
 
 // parse HTML form data
 app.use(express.urlencoded({ extended: true }));
